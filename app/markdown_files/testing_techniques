@@ -1,0 +1,12 @@
+Duplicate email address should be handled by Email service. Current behaviour is to send response status 500 which should we modified to send 400 (bad request). 
+Under heavy load, when too many request are sent to Email service, it returns 500 response intermittently rather it should 
+retun 202 accepted or 429 too many request to let client stop bombarding requests.
+
+For validation, I have tried covering all the edge cases.
+
+The challenging part I found is that since I am not having control over third party.
+I had to modify the code. If the third party API call has been externalised then there would not have been any need to touch the code.
+
+So, for the test cases where third party timeouts or is down. I have created the mock service. 
+For mocking, I have used the already existing mocking library that is using sinon.
+The good part of mock library is that we have the control over it.
